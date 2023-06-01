@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
 export default class SceneInit {
@@ -22,9 +22,7 @@ export default class SceneInit {
         this.camera.position.z = 128;
 
         this.scene = new THREE.Scene();
-
-        // const spaceTexture = new THREE.TextureLoader().load("space2.jpeg");
-        // this.scene.background = spaceTexture;
+        this.scene.background = new THREE.TextureLoader().load("space.jpeg");
 
         // specify a canvas which is already created in the HTML file and tagged by an id
         // aliasing enabled
@@ -41,12 +39,12 @@ export default class SceneInit {
         document.body.appendChild(this.stats.dom);
 
         // ambient light which is for the whole scene
-        // let ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        // let ambientLight = new THREE.AmbientLight(0x000000, 0.7);
         // ambientLight.castShadow = false;
         // this.scene.add(ambientLight);
 
-        // spot light which is illuminating the chart directly
-        // let spotLight = new THREE.SpotLight(0xffffff, 0.55);
+        // spotlight which is illuminating the chart directly
+        // let spotLight = new THREE.SpotLight(0x000000, 0.55);
         // spotLight.castShadow = true;
         // spotLight.position.set(0, 40, 10);
         // this.scene.add(spotLight);
@@ -56,11 +54,9 @@ export default class SceneInit {
     }
 
     animate() {
-        // requestAnimationFrame(this.animate.bind(this));
         window.requestAnimationFrame(this.animate.bind(this));
         this.render();
         this.stats.update();
-        // this.controls.update();
     }
 
     render() {
