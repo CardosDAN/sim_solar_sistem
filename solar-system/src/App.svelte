@@ -2,6 +2,13 @@
 	import { onMount } from 'svelte';
 	import * as THREE from 'three';
     import {OrbitControls} from "three/examples/jsm/controls/OrbitControls.js";
+    import * as dat from 'dat.gui';
+
+    let gui;
+
+    const initGui = () => {
+        gui = new dat.GUI();
+    }
 
 	onMount(() => {
 		// canvas pentru a afișa simularea
@@ -54,7 +61,7 @@
         // Soarele
         const sunMaterial = new THREE.MeshStandardMaterial({
             emissive: 0xffd700, // culoarea straluciri
-            emissiveMap: textureLoader.load('images/sun/sunmap.jpg'),
+            emissiveMap: textureLoader.load('images/sun/8k_sun.jpg'),
             emissiveIntensity: 1, // intensitatea straluciri
         });
         const sunGeometry = new THREE.SphereGeometry(109, 400, 200);
@@ -130,7 +137,6 @@
         const earth = new THREE.Mesh(earthGeometry, earthMaterial);
         earth.rotation.z = tilt;
         earthSystem.add(earth); // adaug Pământul în sistemul solar
-
         // Norii Pământului
         const cloudGeometry = new THREE.SphereGeometry(radius + 1, segments, segments);
         const cloudMaterial = new THREE.MeshPhongMaterial({
@@ -529,6 +535,40 @@
 
         // *****************************************************************************************
 
+        let selectedPlanet; // planeta selectata
+
+        function focusCameraOnPlanet(planet) {
+            selectedPlanet = planet;
+        }
+
+        initGui(); // apelez functia pentru interfata grafica
+       // adaug optiunile pentru selectie planeta in interfata grafica
+
+        const planetOptions = {
+            "Mercury": function() { focusCameraOnPlanet(mercury); },
+            "Venus": function() { focusCameraOnPlanet(venus); },
+            "Earth": function() { focusCameraOnPlanet(earthSystem); },
+            "Mars": function() { focusCameraOnPlanet(mars); },
+            "Jupiter": function() { focusCameraOnPlanet(jupiter); },
+            "Saturn": function() { focusCameraOnPlanet(saturn); },
+            "Uranus": function() { focusCameraOnPlanet(uranus); },
+            "Neptune": function() { focusCameraOnPlanet(neptune); },
+            "Pluto": function() { focusCameraOnPlanet(pluto); },
+        };
+
+        gui.add(planetOptions, "Mercury").name("Mercury").listen();
+        gui.add(planetOptions, "Venus").name("Venus").listen();
+        gui.add(planetOptions, "Earth").name("Earth").listen();
+        gui.add(planetOptions, "Mars").name("Mars").listen();
+        gui.add(planetOptions, "Jupiter").name("Jupiter").listen();
+        gui.add(planetOptions, "Saturn").name("Saturn").listen();
+        gui.add(planetOptions, "Uranus").name("Uranus").listen();
+        gui.add(planetOptions, "Neptune").name("Neptune").listen();
+        gui.add(planetOptions, "Pluto").name("Pluto").listen();
+
+
+
+        // *****************************************************************************************
 		// Funția pentru animație
 		function animate() {
             // *****************************************************************************************
@@ -725,6 +765,17 @@
             // *****************************************************************************************
             // rotatia soarelui
             sun.rotation.y += 0.0008; // rotatia soarelui
+
+            if (selectedPlanet){
+                camera.position.set(selectedPlanet.position.x, selectedPlanet.position.y, selectedPlanet.position.z + 100);
+
+                // Actualizați orientarea camerei
+                camera.lookAt(selectedPlanet.position);
+            }
+            else {
+               camera.lookAt(scene.position);
+
+            }
 
             renderer.render(scene, camera); // randez scena
             requestAnimationFrame(animate); // apelez functia animate
