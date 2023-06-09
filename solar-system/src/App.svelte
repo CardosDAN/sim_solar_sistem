@@ -64,14 +64,14 @@
             emissiveMap: textureLoader.load('images/sun/8k_sun.jpg'),
             emissiveIntensity: 1, // intensitatea straluciri
         });
-        const sunGeometry = new THREE.SphereGeometry(109, 400, 200);
-        const sun = new THREE.Mesh(sunGeometry, sunMaterial);
-        scene.add(sun);
+        const sunGeometry = new THREE.SphereGeometry(109, 400, 200); // geometria Soarelui
+        const sun = new THREE.Mesh(sunGeometry, sunMaterial); // creez Soarele
+        scene.add(sun); // adaug Soarele în scena
 
         // *****************************************************************************************
         // Mercur
 
-        const mercuryMaterial = new THREE.MeshPhongMaterial({
+        const mercuryMaterial = new THREE.MeshPhongMaterial({ // materialul Mercurului
             map: textureLoader.load('images/mercury/mercurymap.jpg'),
             bumpMap: textureLoader.load('images/mercury/mercurybump.jpg'),
             bumpScale: 0.05
@@ -220,7 +220,7 @@
 
         // Saturn
 
-        const saturnMaterial = new THREE.MeshPhongMaterial({
+        const saturnMaterial = new THREE.MeshPhongMaterial({ // materialul lui Saturn
             map: textureLoader.load('images/saturn/saturnmap.jpg'),
         });
 
@@ -537,6 +537,7 @@
 
         let selectedPlanet; // planeta selectata
 
+        // functie pentru a selecta o planeta
         function focusCameraOnPlanet(planet) {
             selectedPlanet = planet;
         }
